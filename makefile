@@ -10,3 +10,4 @@ run:
 clean:
 	rm out
 	rm *.o
+	rm random_ints
