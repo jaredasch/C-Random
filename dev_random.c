@@ -25,15 +25,25 @@ int main(){
 		printf("\trandom %d: %d\n", i, random_nums[i]);
 	}
 
-	printf("Writing numbers to file...\n\n");
 	int fd_out = open("random_ints", O_WRONLY | O_CREAT, 0777);
-	write(fd_out, random_nums, 10 * sizeof(int));
-	close(fd_out);
+	if(fd_out == -1){
+		printf("Error %d: %s\n", errno, strerror(errno));
+	} else {
+		printf("Writing numbers to file...\n\n");
+		write(fd_out, random_nums, 10 * sizeof(int));
+		close(fd_out);
+	}
 
-	printf("Reading numbers from file...\n\n");
 	int *new_random_nums = malloc(10 * sizeof(int));
+	
 	int fd_in = open("random_ints", O_RDONLY);
-	read(fd_in, new_random_nums, 10 * sizeof(int));
+	if(fd_in == -1){
+		printf("Error %d: %s\n", errno, strerror(errno));
+	} else {
+		printf("Reading numbers from file...\n\n");
+		read(fd_in, new_random_nums, 10 * sizeof(int));
+		close(fd_in);
+	}
 	
 	printf("Printing random numbers loaded from file\n");
 	for(int i = 0; i < 10; i++){
